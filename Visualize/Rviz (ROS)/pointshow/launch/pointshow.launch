@@ -1,0 +1,9 @@
+<launch>
+    <node pkg="pointshow" type="point_node.py" name="fake_cloud_py"/>
+    <node pkg="pointshow" type="point_filtered.py" name="fake_cloud_filtered_py"/>
+    <arg name="rviz_config" default="$(dirname)/config.rviz" />
+    <node name="rviz"
+      pkg="rviz" 
+      type="rviz" 
+      args="-d $(arg rviz_config)" />
+</launch>
