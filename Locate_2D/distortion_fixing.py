@@ -3,12 +3,12 @@ import numpy as np
 import os
 
 
-images_dir = "C:\\Users\\JanFrog(LEGION)\\Desktop\\chessboard_image\\"
+images_dir = r"Locate_2D\calibration_sources\Sample\chessboard_image"
 
 
 # cam = cv2.VideoCapture(1)
-# cam.set(cv2.CAP_PROP_FRAME_WIDTH,1920)
-# cam.set(cv2.CAP_PROP_FRAME_HEIGHT,1080)
+# cam.set(cv2.CAP_PROP_FRAME_WIDTH,640)
+# cam.set(cv2.CAP_PROP_FRAME_HEIGHT,480)
 
 points_xyz = np.zeros(shape=(9*6,3),dtype=np.float32)
 points_xyz[:,:2] = np.mgrid[0:9, 0:6].T.reshape(-1, 2)
@@ -31,7 +31,7 @@ for file in os.listdir(images_dir):
         objests_points.append(points_xyz)
         image_points.append(points)
         points2 = cv2.cornerSubPix(image_gray, points, (11,11), (-1,-1), criteria)
-        cv2.drawChessboardCorners(image,(9,6),points,True)
+        image = cv2.drawChessboardCorners(image,(9,6),points,True)
 
     else:
         print(file,"Not Found!")
@@ -43,15 +43,15 @@ ret, mtx, dist, rvecs, tvecs = cv2.calibrateCamera(objests_points,image_points,i
 
 print(mtx)
 
-angel_x = np.rad2deg(np.arctan(1920/2/mtx[0][0])*2)
-angel_y = np.rad2deg(np.arctan(1080/2/mtx[1][1])*2)
+angel_x = np.rad2deg(np.arctan(1280/2/mtx[0][0])*2)
+angel_y = np.rad2deg(np.arctan(1024/2/mtx[1][1])*2)
 
 print(angel_x,angel_y)
 
-# h,w = image_gray.shape
-# newcameramtx, roi = cv2.getOptimalNewCameraMatrix(mtx, dist, (w, h), 1, (w, h))
+h,w = image_gray.shape
+newcameramtx, roi = cv2.getOptimalNewCameraMatrix(mtx, dist, (w, h), 1, (w, h))
 
-# for file in os.listdir(images_dir):
-#     image = cv2.imread(os.path.join(images_dir, file))
-#     dst = cv2.undistort(image, mtx, dist, None, newcameramtx)
-#     cv2.imwrite(f"{os.path.join(images_dir, file)}_calibresult.png", dst)
+for file in os.listdir(images_dir):
+    image = cv2.imread(os.path.join(images_dir, file))
+    dst = cv2.undistort(image, mtx, dist, None, newcameramtx)
+    cv2.imwrite(f"{os.path.join(images_dir, file)}_calibresult.png", dst)

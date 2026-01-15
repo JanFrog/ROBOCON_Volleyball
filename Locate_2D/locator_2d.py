@@ -6,8 +6,8 @@ class Locator:
 
     def __init__(self,img_width=None,img_height=None,radius=None,mtx=None,angel_width=None,angel_height=None):
         ############################参数说明#############################
-        #                  mtx: 相机内参矩阵                            #
-        #   angel_width/height: 横/纵向张角(弧度)  *注:不是视场角FOV      #
+        #                  mtx: 相机内参矩阵                             #
+        #   angel_width/height: 横/纵向张角(弧度)  *注:不是视场角FOV     #
         #     img_width/height: 画面横/纵向尺寸(像素)                    #
         #               radius: 要检测的球体半径(米)                     #
         #################################################################
@@ -71,7 +71,7 @@ class Locator:
 
         cam_y *= -1
         cam_z *= -1
-        cam_x = (cam_x1 + cam_x2) / 2
+        # cam_x = (cam_x1 + cam_x2) / 2
         #相机朝前的情况下：向前x,向左y,向上z
 
         return ((cam_x1,cam_x2),cam_y,cam_z)
